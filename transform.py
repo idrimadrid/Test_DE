@@ -29,7 +29,7 @@ def process_cli(df):
     :return: dataframe
     """
     df = date_uniform(df)
-
+    # rows consolidations
     df = df.groupby("scientific_title")["id", "scientific_title", "date", "journal"].apply(lambda x: x.ffill().bfill()).drop_duplicates()
     df = df.where(df.scientific_title != "  ").dropna()
     return df
@@ -42,6 +42,7 @@ def process_pub(df1, df2):
        :param df1:
        :return: dataframe
        """
+    # concatenation of the two dataframes
     df = pd.concat([df1, df2])
     df = date_uniform(df)
     return df

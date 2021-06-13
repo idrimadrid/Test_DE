@@ -2,38 +2,45 @@ import json
 
 
 def open_json(path):
+    """ Read Json file"""
     with open(path) as f:
-        data = json.load(f)
-    return data
+        file = json.load(f)
+    return file
 
 
-def count_journal(data):
-    counter = {}
-    for drug in list(data.keys()):
+def count_journal(file):
+    """ count journal in each drug"""
+    count = {}
+    for drug in list(file.keys()):
         js = []
-        for j in data[drug]["journal"]:
+        for j in file[drug]["journal"]:
             js.append(j["title"])
-        counter[drug] = js
-    return counter
+        count[drug] = js
+    return count
 
 
-def count_med_journal(counter):
-    num_med = {}
-    for x in counter:
-        for j in counter[x]:
-            if j not in list(num_med.keys()):
-                num_med[j] = 1
+def count_med_journal(counts):
+    """ Count drug in each journal"""
+    count_med = {}
+    for x in counts:
+        for j in counts[x]:
+            if j not in list(count_med.keys()):
+                count_med[j] = 1
             else:
-                num_med[j] += 1
-    return num_med
+                count_med[j] += 1
+    return count_med
 
 
-def get_journal_max_med(num_med):
-    j = max(num_med, key=num_med.get)
-    n = num_med[max(num_med, key=num_med.get)]
-    return "Le journal {} contient {} drugs différents".format(j, n)
+def get_journal_max_med(num):
+    """ Show journal with most cited drugs"""
+    j = max(num, key=num.get)
+    n = num[max(num, key=num.get)]
+    print("Le journal \"{}\" contient {} drugs différents".format(j, n))
+    return j, n
 
 
 if __name__ == "__main__":
     data = open_json('output.json')
-    count_journal(data)
+    counter = count_journal(data)
+    num_med = count_med_journal(counter)
+    get_journal_max_med(num_med)

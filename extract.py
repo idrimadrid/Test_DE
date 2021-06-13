@@ -2,6 +2,7 @@ import pandas as pd
 
 
 def read_files():
+    """ Read  files from depot"""
     med = pd.read_csv(r'depot\drugs.csv')
     clt = pd.read_csv(r'depot\clinical_trials.csv')
     pub = pd.read_csv(r'depot\pubmed.csv')
